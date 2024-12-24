@@ -9,6 +9,7 @@ import { FullScreenPDFViewer } from "./full-screen-pdf-viewer";
 import { ShareDialog } from "./share-dialog";
 import * as pdfjsLib from 'pdfjs-dist';
 import 'pdfjs-dist/web/pdf_viewer.css';
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Match API and Worker versions
 const PDFJS_VERSION = pdfjsLib.version;
@@ -21,12 +22,22 @@ export function PDFViewer() {
   const [pageNum, setPageNum] = useState(1);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pdfName, setPdfName] = useState("");
+  const [imageIndex, setImageIndex] = useState(0);
   const searchParams = useSearchParams();
+
+  const placeholderImages = [
+    "/images/banner1.png",
+    // "/images/placeholder2.jpg",
+    // "/images/placeholder3.jpg",
+  ];
 
   useEffect(() => {
     const loadPDF = () => {
       const summaryParam = searchParams.get("summary");
       if (summaryParam) {
+        setPdfName(summaryParam.split('/').pop() || "PDF Document");
         renderPDF(summaryParam);
       }
     };
@@ -41,14 +52,27 @@ export function PDFViewer() {
     };
   }, [searchParams]);
 
+  useEffect(() => {
+    if (!pdfDoc && !isLoading && placeholderImages.length > 0) {
+      const interval = setInterval(() => {
+        setImageIndex((prevIndex) => (prevIndex + 1) % placeholderImages.length);
+      }, 3000);
+
+      return () => clearInterval(interval);
+    }
+  }, [pdfDoc, isLoading, placeholderImages.length]);
+
   const renderPDF = async (url: string) => {
     try {
+      setIsLoading(true);
       const loadingTask = pdfjsLib.getDocument(url);
       const pdf = await loadingTask.promise;
       setPdfDoc(pdf);
       renderPage(1, pdf);
     } catch (error) {
       console.error("Error loading PDF:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -95,25 +119,63 @@ export function PDFViewer() {
     setIsShareOpen(true);
   };
 
+  const changePage = (offset: number) => {
+    if (pdfDoc) {
+      const newPageNum = pageNum + offset;
+      if (newPageNum > 0 && newPageNum <= pdfDoc.numPages) {
+        setPageNum(newPageNum);
+        renderPage(newPageNum, pdfDoc);
+      }
+    }
+  };
+
   return (
     <>
       <Card className="w-full md:w-2/3">
         <CardContent className="p-6">
-          <div className="flex justify-end space-x-2 mb-4">
-            <Button onClick={handleFullScreen} size="sm">
-              <Expand className="w-4 h-4 mr-2" />
-              Full Screen
-            </Button>
-            <Button onClick={handleDownload} size="sm">
-              <Download className="w-4 h-4 mr-2" />
-              Download
-            </Button>
-            <Button onClick={handleShare} size="sm">
-              <Share className="w-4 h-4 mr-2" />
-              Share
-            </Button>
-          </div>
-          <canvas ref={canvasRef} className="w-full h-auto" />
+          {isLoading ? (
+            <Skeleton className="w-full h-64 mb-4" />
+          ) : pdfDoc ? (
+            <>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-semibold">{pdfName}</h2>
+                <div className="flex space-x-2">
+                  <Button onClick={handleFullScreen} size="sm">
+                    <Expand className="w-4 h-4 mr-2" />
+                    Full Screen
+                  </Button>
+                  <Button onClick={handleDownload} size="sm">
+                    <Download className="w-4 h-4 mr-2" />
+                    Download
+                  </Button>
+                  <Button onClick={handleShare} size="sm">
+                    <Share className="w-4 h-4 mr-2" />
+                    Share
+                  </Button>
+                </div>
+              </div>
+              <div className="flex justify-between items-center mb-4">
+                <div className="flex space-x-2">
+                  <Button onClick={() => changePage(-1)} size="sm" disabled={pageNum === 1}>
+                    Previous
+                  </Button>
+                  <Button onClick={() => changePage(1)} size="sm" disabled={pageNum === pdfDoc.numPages}>
+                    Next
+                  </Button>
+                </div>
+                <div className="text-sm">Page {pageNum} of {pdfDoc.numPages}</div>
+              </div>
+            </>
+          ) : placeholderImages.length > 0 ? (
+            <img
+              src={placeholderImages[imageIndex]}
+              alt="Placeholder"
+              className="w-full h-auto mb-4"
+            />
+          ) : (
+            <Skeleton className="w-full h-64 mb-4" />
+          )}
+          <canvas ref={canvasRef} className="w-full h-auto" style={{ display: pdfDoc ? "block" : "none" }} />
         </CardContent>
       </Card>
       {isFullScreen && (

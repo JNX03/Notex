@@ -9,10 +9,10 @@ const notes = [
   {
     title: "วิทยาศาสตร์ ม.3",
     items: [
-      { title: "สรุปวิทย์ศาสรต์ ม.3 ปลายภาค", href: "file/ScienctM3Energy.pdf" },
+      { title: "สรุปวิทย์ศาสรต์ ม.3 ปลายภาค (พลังงาน)", href: "file/ScienctM3Energy.pdf" },
       { title: "สรุปวิทย์ศาสรต์ ม.3 ปลายภาค เทอม 1 (คลื่นและแสง)", href: "file/ScienctM3WaveMagnetLight.pdf" },
       { title: "สรุปวิทย์ศาสรต์ ม.3 ปลายภาค เทอม 1 (ระบุสุริยะของเรา)", href: "file/ScienctM3Solar.pdf" },
-      { title: "สรุปวิทย์ศาสรต์ ม.3 ปลายภาค เทอม 2 ไปหมดล่ะสมองกุนิ", href: "file/ScienctM3Chemical.pdf" },
+      { title: "สรุปวิทย์ศาสรต์ ม.3 ปลายภาค เทอม 2 (เคมีพื้นฐาน)", href: "file/ScienctM3Chemical.pdf" },
     ],
   },
   {
