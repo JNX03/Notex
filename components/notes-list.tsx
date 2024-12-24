@@ -1,9 +1,13 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation"; 
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const notes = [
   {
@@ -29,16 +33,14 @@ const notes = [
       { title: "สุขศึกษา - Jnx03 [2]", href: "file/M4health_education.pdf" },
     ],
   },
-]
+];
 
 export function NotesList() {
-  const router = useRouter()
-  const [, forceUpdate] = useState({})
+  const router = useRouter();
 
   const handleClick = (href: string) => {
-    router.push(`/?summary=${encodeURIComponent(href)}`, undefined, { shallow: true })
-    forceUpdate({})
-  }
+    router.push(`/?summary=${encodeURIComponent(href)}`); 
+  };
 
   return (
     <Card className="w-full md:w-1/3">
@@ -69,6 +71,5 @@ export function NotesList() {
         </Accordion>
       </CardContent>
     </Card>
-  )
+  );
 }
-

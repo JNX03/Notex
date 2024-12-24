@@ -1,24 +1,23 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
-import { Expand, Download, Share } from 'lucide-react';
+import { Expand, Download, Share } from "lucide-react";
 import { FullScreenPDFViewer } from "./full-screen-pdf-viewer";
 import { ShareDialog } from "./share-dialog";
-import * as pdfjsLib from 'pdfjs-dist';
-import 'pdfjs-dist/web/pdf_viewer.css';
+import * as pdfjsLib from "pdfjs-dist";
+import "pdfjs-dist/web/pdf_viewer.css";
 import { Skeleton } from "@/components/ui/skeleton";
+import Image from "next/image";
 
-// Match API and Worker versions
-const PDFJS_VERSION = pdfjsLib.version;
 const WORKER_SRC = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.worker.min.mjs`;
 pdfjsLib.GlobalWorkerOptions.workerSrc = WORKER_SRC;
 
 export function PDFViewer() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [pdfDoc, setPdfDoc] = useState<any>(null);
+  const [pdfDoc, setPdfDoc] = useState<pdfjsLib.PDFDocumentProxy | null>(null);
   const [pageNum, setPageNum] = useState(1);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
@@ -27,42 +26,9 @@ export function PDFViewer() {
   const [imageIndex, setImageIndex] = useState(0);
   const searchParams = useSearchParams();
 
-  const placeholderImages = [
-    "/images/banner1.png",
-    // "/images/placeholder2.jpg",
-    // "/images/placeholder3.jpg",
-  ];
+  const placeholderImages = ["/images/banner1.png"];
 
-  useEffect(() => {
-    const loadPDF = () => {
-      const summaryParam = searchParams.get("summary");
-      if (summaryParam) {
-        setPdfName(summaryParam.split('/').pop() || "PDF Document");
-        renderPDF(summaryParam);
-      }
-    };
-
-    loadPDF();
-
-    // Listen for changes to the summary parameter
-    window.addEventListener('summarychange', loadPDF);
-
-    return () => {
-      window.removeEventListener('summarychange', loadPDF);
-    };
-  }, [searchParams]);
-
-  useEffect(() => {
-    if (!pdfDoc && !isLoading && placeholderImages.length > 0) {
-      const interval = setInterval(() => {
-        setImageIndex((prevIndex) => (prevIndex + 1) % placeholderImages.length);
-      }, 3000);
-
-      return () => clearInterval(interval);
-    }
-  }, [pdfDoc, isLoading, placeholderImages.length]);
-
-  const renderPDF = async (url: string) => {
+  const renderPDF = useCallback(async (url: string) => {
     try {
       setIsLoading(true);
       const loadingTask = pdfjsLib.getDocument(url);
@@ -74,9 +40,9 @@ export function PDFViewer() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const renderPage = async (num: number, pdf: any) => {
+  const renderPage = useCallback(async (num: number, pdf: pdfjsLib.PDFDocumentProxy) => {
     try {
       const page = await pdf.getPage(num);
       const scale = 1.5;
@@ -97,7 +63,35 @@ export function PDFViewer() {
     } catch (error) {
       console.error("Error rendering page:", error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const loadPDF = () => {
+      const summaryParam = searchParams.get("summary");
+      if (summaryParam) {
+        setPdfName(summaryParam.split("/").pop() || "PDF Document");
+        renderPDF(summaryParam);
+      }
+    };
+
+    loadPDF();
+
+    window.addEventListener("summarychange", loadPDF);
+
+    return () => {
+      window.removeEventListener("summarychange", loadPDF);
+    };
+  }, [searchParams, renderPDF]);
+
+  useEffect(() => {
+    if (!pdfDoc && !isLoading && placeholderImages.length > 0) {
+      const interval = setInterval(() => {
+        setImageIndex((prevIndex) => (prevIndex + 1) % placeholderImages.length);
+      }, 3000);
+
+      return () => clearInterval(interval);
+    }
+  }, [pdfDoc, isLoading, placeholderImages.length]);
 
   const handleFullScreen = () => {
     setIsFullScreen(true);
@@ -167,9 +161,11 @@ export function PDFViewer() {
               </div>
             </>
           ) : placeholderImages.length > 0 ? (
-            <img
+            <Image
               src={placeholderImages[imageIndex]}
               alt="Placeholder"
+              width={800}
+              height={600}
               className="w-full h-auto mb-4"
             />
           ) : (

@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { X } from 'lucide-react'
 import * as pdfjsLib from 'pdfjs-dist'
-// import 'pdfjs-dist/build/pdf.worker.entry'
+import type { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist'
 
 // pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`
@@ -22,13 +22,15 @@ export function FullScreenPDFViewer({ pdfUrl, onClose }: FullScreenPDFViewerProp
     if (!container) return
 
     const loadingTask = pdfjsLib.getDocument(pdfUrl)
-    loadingTask.promise.then((pdf: any) => {
+    loadingTask.promise.then((pdf: PDFDocumentProxy) => {
       for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-        pdf.getPage(pageNum).then((page: any) => {
+        pdf.getPage(pageNum).then((page: PDFPageProxy) => {
           const scale = 1.5
           const viewport = page.getViewport({ scale })
           const canvas = document.createElement("canvas")
           const context = canvas.getContext("2d")
+          if (!context) return
+
           canvas.height = viewport.height
           canvas.width = viewport.width
 
@@ -55,4 +57,3 @@ export function FullScreenPDFViewer({ pdfUrl, onClose }: FullScreenPDFViewerProp
     </div>
   )
 }
-

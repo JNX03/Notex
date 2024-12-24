@@ -6,8 +6,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "โน้ตสรุป @Jnx03",
-  description: "A collection of study notes",
+  title: "NoteX - Jnx03",
+  description: "A collection of study notes by Jxxn03z - Notex",
 }
 
 export default function RootLayout({
