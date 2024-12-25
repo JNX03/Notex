@@ -76,7 +76,8 @@ export function PDFViewer() {
         setPdfName(summaryParam.split("/").pop() || "PDF Document");
         renderPDF(summaryParam);
       } else {
-        setPdfNotFound(true);
+        setPdfNotFound(false);
+        setPdfDoc(null);
       }
     };
 
@@ -133,14 +134,20 @@ export function PDFViewer() {
     <>
       <Card className="w-full md:w-2/3">
         <CardContent className="p-6">
-          {pdfNotFound ? (
+          {searchParams.get("summary") && pdfNotFound ? (
             <Alert variant="destructive">
               <AlertDescription className="text-red-600 font-semibold">
                 Note/Summary Not Found
               </AlertDescription>
             </Alert>
-          ) : isLoading ? (
-            <Skeleton className="w-full h-64 mb-4" />
+          ) : !searchParams.get("summary") || isLoading ? (
+            <Image
+              src={placeholderImages[imageIndex]}
+              alt="Placeholder"
+              width={800}
+              height={600}
+              className="w-full h-auto mb-4"
+            />
           ) : pdfDoc ? (
             <>
               <div className="flex justify-between items-center mb-4">
@@ -172,14 +179,6 @@ export function PDFViewer() {
                 <div className="text-sm">Page {pageNum} of {pdfDoc.numPages}</div>
               </div>
             </>
-          ) : placeholderImages.length > 0 ? (
-            <Image
-              src={placeholderImages[imageIndex]}
-              alt="Placeholder"
-              width={800}
-              height={600}
-              className="w-full h-auto mb-4"
-            />
           ) : (
             <Skeleton className="w-full h-64 mb-4" />
           )}
@@ -200,4 +199,3 @@ export function PDFViewer() {
     </>
   );
 }
-
