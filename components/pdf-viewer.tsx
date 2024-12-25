@@ -4,13 +4,14 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
-import { Expand, Download, Share } from "lucide-react";
+import { Expand, Download, Share } from 'lucide-react';
 import { FullScreenPDFViewer } from "./full-screen-pdf-viewer";
 import { ShareDialog } from "./share-dialog";
 import * as pdfjsLib from "pdfjs-dist";
 import "pdfjs-dist/web/pdf_viewer.css";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const WORKER_SRC = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.worker.min.mjs`;
 pdfjsLib.GlobalWorkerOptions.workerSrc = WORKER_SRC;
@@ -24,6 +25,7 @@ export function PDFViewer() {
   const [isLoading, setIsLoading] = useState(false);
   const [pdfName, setPdfName] = useState("");
   const [imageIndex, setImageIndex] = useState(0);
+  const [pdfNotFound, setPdfNotFound] = useState(false);
   const searchParams = useSearchParams();
 
   const placeholderImages = ["/images/banner1.png"];
@@ -31,12 +33,14 @@ export function PDFViewer() {
   const renderPDF = useCallback(async (url: string) => {
     try {
       setIsLoading(true);
+      setPdfNotFound(false);
       const loadingTask = pdfjsLib.getDocument(url);
       const pdf = await loadingTask.promise;
       setPdfDoc(pdf);
       renderPage(1, pdf);
     } catch (error) {
       console.error("Error loading PDF:", error);
+      setPdfNotFound(true);
     } finally {
       setIsLoading(false);
     }
@@ -71,6 +75,8 @@ export function PDFViewer() {
       if (summaryParam) {
         setPdfName(summaryParam.split("/").pop() || "PDF Document");
         renderPDF(summaryParam);
+      } else {
+        setPdfNotFound(true);
       }
     };
 
@@ -127,7 +133,13 @@ export function PDFViewer() {
     <>
       <Card className="w-full md:w-2/3">
         <CardContent className="p-6">
-          {isLoading ? (
+          {pdfNotFound ? (
+            <Alert variant="destructive">
+              <AlertDescription className="text-red-600 font-semibold">
+                Note/Summary Not Found
+              </AlertDescription>
+            </Alert>
+          ) : isLoading ? (
             <Skeleton className="w-full h-64 mb-4" />
           ) : pdfDoc ? (
             <>
@@ -188,3 +200,4 @@ export function PDFViewer() {
     </>
   );
 }
+

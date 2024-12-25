@@ -23,15 +23,21 @@ const notes = [
   {
     title: "Chemical ม.4",
     items: [
-      { title: "Chemical - Jnx03 [1]", href: "file/Chemical1.pdf", keywords: ["เคมี ม.4", "บทที่ 1"], description: "เอกสารเคมีสำหรับ ม.4 บทที่ 1" },
-      { title: "Chemical - Jnx03 [2]", href: "file/Chemical2.pdf", keywords: ["เคมี ม.4", "บทที่ 2"], description: "เอกสารเคมีสำหรับ ม.4 บทที่ 2" },
+      { title: "Chemical - Jnx03 [1]", href: "file/Chemical1.pdf", keywords: ["เคมี ม.4", "บทที่ 1"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
+      { title: "Chemical - Jnx03 [2]", href: "file/Chemical2.pdf", keywords: ["เคมี ม.4", "บทที่ 2"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 2" },
+    ],
+  },
+  {
+    title: "Physics ม.4",
+    items: [
+      { title: "PhysicsM4 - Jnx03 [1]", href: "file/PhysicsM4-1.pdf", keywords: ["ฟิสิก", "ม.4"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
     ],
   },
   {
     title: "อื่นๆ ม.4",
     items: [
-      { title: "ENG A - Jnx03 [2]", href: "file/English.pdf", keywords: ["อังกฤษ", "ม.4"], description: "เอกสารภาษาอังกฤษสำหรับ ม.4" },
-      { title: "สุขศึกษา - Jnx03 [2]", href: "file/M4health_education.pdf", keywords: ["สุขศึกษา", "ม.4"], description: "เอกสารสุขศึกษาสำหรับ ม.4" },
+      { title: "ENG A - Jnx03 [2]", href: "file/English.pdf", keywords: ["อังกฤษ", "ม.4"], description: "สรุป/Noteภาษาอังกฤษสำหรับ ม.4" },
+      { title: "สุขศึกษา - Jnx03 [2]", href: "file/M4health_education.pdf", keywords: ["สุขศึกษา", "ม.4"], description: "สรุป/Noteสุขศึกษาสำหรับ ม.4" },
     ],
   },
 ];
