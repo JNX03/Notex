@@ -43,9 +43,21 @@ export default function Home() {
 
     fetchContributors();
     const timerId = setInterval(updateClock, 1000);
-    updateClock(); // Initialize immediately
-
+    updateClock();
     return () => clearInterval(timerId);
+  }, []);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6423546523017297";
+    script.async = true;
+    script.crossOrigin = "anonymous";
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
   }, []);
 
   return (
