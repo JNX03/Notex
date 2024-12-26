@@ -101,7 +101,7 @@ export function PDFViewer() {
     if (!pdfDoc && !isLoading && placeholderImages.length > 0) {
       const interval = setInterval(() => {
         setImageIndex((prevIndex) => (prevIndex + 1) % placeholderImages.length);
-      }, 5000); // Changed to 5 seconds for a slower transition
+      }, 5000);
 
       return () => clearInterval(interval);
     }

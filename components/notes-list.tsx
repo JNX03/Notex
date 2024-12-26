@@ -25,6 +25,7 @@ const notes = [
     items: [
       { title: "Chemical - Jnx03 [1]", href: "file/Chemical1.pdf", keywords: ["เคมี ม.4", "บทที่ 1"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
       { title: "Chemical - Jnx03 [2]", href: "file/Chemical2.pdf", keywords: ["เคมี ม.4", "บทที่ 2"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 2" },
+      { title: "Chemical - Jnx03 [3]", href: "", keywords: ["เคมี ม.4", "บทที่ 3"], description: "TBA" },
     ],
   },
   {
