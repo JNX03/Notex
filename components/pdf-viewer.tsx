@@ -28,7 +28,14 @@ export function PDFViewer() {
   const [pdfNotFound, setPdfNotFound] = useState(false);
   const searchParams = useSearchParams();
 
-  const placeholderImages = ["/images/banner1.png"];
+  const placeholderImages = ["/images/6.png", "/images/7.png"];
+
+  const getScale = useCallback(() => {
+    const width = window.innerWidth;
+    if (width < 640) return 1; // Mobile
+    if (width < 1024) return 1.25; // Tablet
+    return 1.5; // Desktop
+  }, []);
 
   const renderPDF = useCallback(async (url: string) => {
     try {
@@ -49,7 +56,7 @@ export function PDFViewer() {
   const renderPage = useCallback(async (num: number, pdf: pdfjsLib.PDFDocumentProxy) => {
     try {
       const page = await pdf.getPage(num);
-      const scale = 1.5;
+      const scale = getScale();
       const viewport = page.getViewport({ scale });
       const canvas = canvasRef.current;
       const context = canvas?.getContext("2d");
@@ -67,7 +74,7 @@ export function PDFViewer() {
     } catch (error) {
       console.error("Error rendering page:", error);
     }
-  }, []);
+  }, [getScale]);
 
   useEffect(() => {
     const loadPDF = () => {
@@ -94,7 +101,7 @@ export function PDFViewer() {
     if (!pdfDoc && !isLoading && placeholderImages.length > 0) {
       const interval = setInterval(() => {
         setImageIndex((prevIndex) => (prevIndex + 1) % placeholderImages.length);
-      }, 3000);
+      }, 5000); // Changed to 5 seconds for a slower transition
 
       return () => clearInterval(interval);
     }
@@ -130,9 +137,20 @@ export function PDFViewer() {
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (pdfDoc) {
+        renderPage(pageNum, pdfDoc);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [pdfDoc, pageNum, renderPage]);
+
   return (
     <>
-      <Card className="w-full md:w-2/3">
+      <Card className="w-full max-w-4xl mx-auto">
         <CardContent className="p-6">
           {searchParams.get("summary") && pdfNotFound ? (
             <Alert variant="destructive">
@@ -141,38 +159,47 @@ export function PDFViewer() {
               </AlertDescription>
             </Alert>
           ) : !searchParams.get("summary") || isLoading ? (
-            <Image
-              src={placeholderImages[imageIndex]}
-              alt="Placeholder"
-              width={800}
-              height={600}
-              className="w-full h-auto mb-4"
-            />
+            <div className="relative w-full h-[200px] sm:h-[300px] md:h-[400px] overflow-hidden">
+              {placeholderImages.map((src, index) => (
+                <Image
+                  key={src}
+                  src={src}
+                  alt={`Placeholder ${index + 1}`}
+                  fill
+                  style={{
+                    objectFit: 'cover',
+                    transition: 'opacity 1s ease-in-out',
+                    opacity: index === imageIndex ? 1 : 0,
+                  }}
+                  priority
+                />
+              ))}
+            </div>
           ) : pdfDoc ? (
             <>
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-2 sm:space-y-0">
                 <h2 className="text-lg font-semibold">{pdfName}</h2>
-                <div className="flex space-x-2">
-                  <Button onClick={handleFullScreen} size="sm">
+                <div className="flex flex-wrap gap-2">
+                  <Button onClick={handleFullScreen} size="sm" className="flex-grow sm:flex-grow-0">
                     <Expand className="w-4 h-4 mr-2" />
-                    Full Screen
+                    <span className="hidden sm:inline">Full Screen</span>
                   </Button>
-                  <Button onClick={handleDownload} size="sm">
+                  <Button onClick={handleDownload} size="sm" className="flex-grow sm:flex-grow-0">
                     <Download className="w-4 h-4 mr-2" />
-                    Download
+                    <span className="hidden sm:inline">Download</span>
                   </Button>
-                  <Button onClick={handleShare} size="sm">
+                  <Button onClick={handleShare} size="sm" className="flex-grow sm:flex-grow-0">
                     <Share className="w-4 h-4 mr-2" />
-                    Share
+                    <span className="hidden sm:inline">Share</span>
                   </Button>
                 </div>
               </div>
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex space-x-2">
-                  <Button onClick={() => changePage(-1)} size="sm" disabled={pageNum === 1}>
+              <div className="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-2 sm:space-y-0">
+                <div className="flex space-x-2 w-full sm:w-auto justify-between sm:justify-start">
+                  <Button onClick={() => changePage(-1)} size="sm" disabled={pageNum === 1} className="flex-grow sm:flex-grow-0">
                     Previous
                   </Button>
-                  <Button onClick={() => changePage(1)} size="sm" disabled={pageNum === pdfDoc.numPages}>
+                  <Button onClick={() => changePage(1)} size="sm" disabled={pageNum === pdfDoc.numPages} className="flex-grow sm:flex-grow-0">
                     Next
                   </Button>
                 </div>
@@ -182,7 +209,9 @@ export function PDFViewer() {
           ) : (
             <Skeleton className="w-full h-64 mb-4" />
           )}
-          <canvas ref={canvasRef} className="w-full h-auto" style={{ display: pdfDoc ? "block" : "none" }} />
+          <div className="w-full overflow-x-auto">
+            <canvas ref={canvasRef} className="max-w-full h-auto" style={{ display: pdfDoc ? "block" : "none" }} />
+          </div>
         </CardContent>
       </Card>
       {isFullScreen && (
@@ -199,3 +228,4 @@ export function PDFViewer() {
     </>
   );
 }
+
