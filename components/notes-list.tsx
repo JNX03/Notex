@@ -9,6 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Countdown } from "./Countdown";
 
 const notes = [
   {
@@ -23,22 +24,22 @@ const notes = [
   {
     title: "Chemical ม.4",
     items: [
-      { title: "Chemical - Jnx03 [1]", href: "file/Chemical1.pdf", keywords: ["เคมี ม.4", "บทที่ 1"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
-      { title: "Chemical - Jnx03 [2]", href: "file/Chemical2.pdf", keywords: ["เคมี ม.4", "บทที่ 2"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 2" },
-      { title: "Chemical - Jnx03 [3]", href: "", keywords: ["เคมี ม.4", "บทที่ 3"], description: "TBA" },
+      { title: "Chemical ม.4 กลางภาคเทอม 1 (Electron , Transition)", href: "file/Chemical1.pdf", keywords: ["เคมี ม.4", "บทที่ 1" , "Atomic" , "Develope" , "Transition","oxidation","Radiation"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
+      { title: "Chemical ม.4 ปลายภาคเทอม 1 (Covalent , Ionic)", href: "file/Chemical2.pdf", keywords: ["เคมี ม.4", "บทที่ 2","Ionic","Covalent","Bond"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 2" },
+      { title: "Chemical ม.4 กลางภาคเทอม 2", href: "", keywords: ["เคมี ม.4", "บทที่ 3"], description: "TBA", status: "TBA", release: "2024-12-27T20:00:00" },
     ],
   },
   {
     title: "Physics ม.4",
     items: [
-      { title: "PhysicsM4 - Jnx03 [1]", href: "file/PhysicsM4-1.pdf", keywords: ["ฟิสิก", "ม.4"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
+      { title: "PhysicsM4 ม.4 ปลายภาคเทอม 1 (Force , Friction )", href: "file/PhysicsM4-1.pdf", keywords: ["ฟิสิก", "ม.4","แรงเสียดทาน","แรงดึงดูดระหว่างมวล","สมดุล","การหมุน","Friction"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
     ],
   },
   {
     title: "อื่นๆ ม.4",
     items: [
-      { title: "ENG A - Jnx03 [2]", href: "file/English.pdf", keywords: ["อังกฤษ", "ม.4"], description: "สรุป/Noteภาษาอังกฤษสำหรับ ม.4" },
-      { title: "สุขศึกษา - Jnx03 [2]", href: "file/M4health_education.pdf", keywords: ["สุขศึกษา", "ม.4"], description: "สรุป/Noteสุขศึกษาสำหรับ ม.4" },
+      { title: "ENG A M4 (subject-verb agreement)", href: "file/English.pdf", keywords: ["อังกฤษ", "ม.4","subject","verb"], description: "สรุป/Noteภาษาอังกฤษสำหรับ ม.4" },
+      { title: "สุขศึกษา M4 (ระบบกระดูก - ระบบย่อยอาหาร)", href: "file/M4health_education.pdf", keywords: ["สุขศึกษา", "ม.4","กระดูก","ย่อยอาหาร","bone"], description: "สรุป/Noteสุขศึกษาสำหรับ ม.4" },
     ],
   },
 ];
@@ -85,6 +86,10 @@ export function NotesList() {
     ),
   }));
 
+  const announcements = notes.flatMap((section) =>
+    section.items.filter((item) => item.release)
+  );
+
   return (
     <Card className="w-full md:w-1/3">
       <CardHeader>
@@ -100,6 +105,28 @@ export function NotesList() {
             className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
+
+        {announcements.length > 0 && (
+          <div className="mb-4">
+            <ul className="space-y-2">
+              {announcements.map((item, index) => (
+                <li key={index} className="flex flex-col">
+                  <div>
+                    <button
+                      onClick={() => handleClick(item.href)}
+                      className="text-blue-500 hover:underline"
+                    >
+                      {item.title}
+                    </button>
+                  </div>
+                  <div className="mt-2">
+                    <Countdown targetDate={item.release || ""} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {favoriteNotes.length > 0 && (
           <div className="mb-4">
@@ -127,26 +154,28 @@ export function NotesList() {
                 <AccordionContent>
                   <ul className="space-y-2">
                     {section.items.map((item, itemIndex) => (
-                      <li key={itemIndex} className="flex items-center justify-between">
-                        <div>
+                      <li key={itemIndex} className="flex flex-col">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <button
+                              onClick={() => handleClick(item.href)}
+                              className="text-blue-500 hover:underline"
+                            >
+                              {item.title}
+                            </button>
+                            <p className="text-sm text-gray-600">{item.description}</p>
+                          </div>
                           <button
-                            onClick={() => handleClick(item.href)}
-                            className="text-blue-500 hover:underline"
+                            onClick={() => toggleFavorite(item)}
+                            className={`ml-2 p-1 rounded ${
+                              favoriteNotes.some((fav) => fav.href === item.href)
+                                ? "text-yellow-500"
+                                : "text-gray-400"
+                            } hover:text-yellow-500`}
                           >
-                            {item.title}
+                            ★
                           </button>
-                          <p className="text-sm text-gray-600">{item.description}</p>
                         </div>
-                        <button
-                          onClick={() => toggleFavorite(item)}
-                          className={`ml-2 p-1 rounded ${
-                            favoriteNotes.some((fav) => fav.href === item.href)
-                              ? "text-yellow-500"
-                              : "text-gray-400"
-                          } hover:text-yellow-500`}
-                        >
-                          ★
-                        </button>
                       </li>
                     ))}
                   </ul>
