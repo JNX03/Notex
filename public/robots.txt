@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://notex.jnx03.xyz
+
+# Sitemaps
+Sitemap: https://notex.jnx03.xyz/sitemap.xml
