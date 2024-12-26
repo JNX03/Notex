@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NoteX
 
-## Getting Started
+![NoteX Logo](https://raw.githubusercontent.com/JNX03/Notex/refs/heads/main/download%20(2).png)
 
-First, run the development server:
+Welcome to **NoteX**, a curated collection of educational notes designed to support students in their academic journey. This repository offers a range of materials across various subjects, primarily focusing on high school science courses.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Table of Contents
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Overview](#overview)
+- [Available Notes](#available-notes)
+- [Contributing](#contributing)
+- [Acknowledgments](#acknowledgments)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Overview
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**NoteX** serves as a centralized platform for students to access well-organized notes that can aid in their studies. The notes are categorized by subject and educational level, ensuring easy navigation and relevance.
 
-## Learn More
+## Available Notes
 
-To learn more about Next.js, take a look at the following resources:
+The current collection includes:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **วิทยาศาสตร์ ม.3 (Science Grade 9):** Comprehensive notes covering the Grade 9 science curriculum.
+- **Chemical ม.4 (Chemistry Grade 10):** Detailed explanations and summaries of key chemistry concepts for Grade 10 students.
+- **Physics ม.4 (Physics Grade 10):** In-depth notes on fundamental physics topics tailored for Grade 10 learners.
+- **อื่นๆ ม.4 (Others Grade 10):** Additional educational materials pertinent to Grade 10 studies.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+We welcome contributions from educators and students alike. If you have notes or resources that could benefit others, please consider sharing them. To contribute:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Fork the repository.
+2. Add your notes in the appropriate category.
+3. Submit a pull request for review.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Your contributions will help expand this repository into a more comprehensive educational resource.
+
+## Acknowledgments
+
+**NoteX** was developed with ❤️ by [Jxxn03z](https://www.instagram.com/Jxxn03z/). Special thanks to all contributors who have enriched this collection with their valuable notes and insights.
+
+---
+
+© 2024 NoteX - Developed with ❤️ by [@Jxxn03z](https://www.instagram.com/Jxxn03z/)
+
+Special thanks to these amazing contributors who helped build NoteX:
+
+<!-- Dynamic Contributor List -->
+[![](https://contrib.rocks/image?repo=JNX03/Notex)](https://github.com/JNX03/Notex/graphs/contributors)
+
