@@ -12,16 +12,9 @@ import "pdfjs-dist/web/pdf_viewer.css";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import Script from 'next/script';
 
 const WORKER_SRC = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.worker.min.mjs`;
 pdfjsLib.GlobalWorkerOptions.workerSrc = WORKER_SRC;
-
-declare global {
-  interface Window {
-    adsbygoogle: any;
-  }
-}
 
 export function PDFViewer() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -155,23 +148,8 @@ export function PDFViewer() {
     return () => window.removeEventListener('resize', handleResize);
   }, [pdfDoc, pageNum, renderPage]);
 
-  const initializeAd = useCallback(() => {
-    if (typeof window !== "undefined" && window.adsbygoogle) {
-      window.adsbygoogle.push({});
-    }
-  }, []);
-
-  useEffect(() => {
-    initializeAd();
-  }, [initializeAd]);
-
   return (
     <>
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6423546523017297"
-        crossOrigin="anonymous"
-      />
       <Card className="w-full max-w-4xl mx-auto">
         <CardContent className="p-6">
           {searchParams.get("summary") && pdfNotFound ? (
@@ -234,14 +212,6 @@ export function PDFViewer() {
           <div className="w-full overflow-x-auto">
             <canvas ref={canvasRef} className="max-w-full h-auto" style={{ display: pdfDoc ? "block" : "none" }} />
           </div>
-          <ins
-            className="adsbygoogle"
-            style={{ display: 'block', marginTop: '20px' }}
-            data-ad-client="ca-pub-6423546523017297"
-            data-ad-slot="3866517453"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          ></ins>
         </CardContent>
       </Card>
       {isFullScreen && (
@@ -258,3 +228,4 @@ export function PDFViewer() {
     </>
   );
 }
+
