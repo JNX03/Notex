@@ -26,7 +26,7 @@ const notes = [
     items: [
       { title: "Chemical ม.4 กลางภาคเทอม 1 (Electron , Transition)", href: "file/Chemical1.pdf", keywords: ["เคมี ม.4", "บทที่ 1" , "Atomic" , "Develope" , "Transition","oxidation","Radiation"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
       { title: "Chemical ม.4 ปลายภาคเทอม 1 (Covalent , Ionic)", href: "file/Chemical2.pdf", keywords: ["เคมี ม.4", "บทที่ 2","Ionic","Covalent","Bond"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 2" },
-      { title: "Chemical ม.4 กลางภาคเทอม 2", href: "", keywords: ["เคมี ม.4", "บทที่ 3"], description: "TBA", status: "TBA", release: "2024-12-27T20:00:00" },
+      { title: "Chemical ม.4 กลางภาคเทอม 2", href: "", keywords: ["เคมี ม.4", "บทที่ 3"], description: "TBA", status: "TBA", release: "2024-12-28T23:59:59" },
     ],
   },
   {
