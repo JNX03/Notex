@@ -9,7 +9,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Countdown } from "./Countdown";
+// import { Countdown } from "./Countdown";
+
+// { title: "Chemical ม.4 กลางภาคเทอม 2", href: "file/Chemical3.pdf", keywords: ["เคมี ม.4", "บทที่ 3"], description: "TBA", status: "TBA", release: "2024-12-28T23:59:59" },
 
 const notes = [
   {
@@ -26,7 +28,7 @@ const notes = [
     items: [
       { title: "Chemical ม.4 กลางภาคเทอม 1 (Electron , Transition)", href: "file/Chemical1.pdf", keywords: ["เคมี ม.4", "บทที่ 1" , "Atomic" , "Develope" , "Transition","oxidation","Radiation"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
       { title: "Chemical ม.4 ปลายภาคเทอม 1 (Covalent , Ionic)", href: "file/Chemical2.pdf", keywords: ["เคมี ม.4", "บทที่ 2","Ionic","Covalent","Bond"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 2" },
-      { title: "Chemical ม.4 กลางภาคเทอม 2", href: "", keywords: ["เคมี ม.4", "บทที่ 3"], description: "TBA", status: "TBA", release: "2024-12-28T23:59:59" },
+      { title: "Chemical ม.4 กลางภาคเทอม 2", href: "file/Chemical3.pdf", keywords: ["เคมี ม.4", "บทที่ 3","พลังงานพันธะ","รูปร่าง","Molecule","สภาพขั้ว","มวลอะตอม","มวลเฉลี่ย","Mole","VSERP"], description: "สรุป/Noteเคมีสำหรับ ม.4 เนื้อหา : พลังงานพันธะ , รูปร่าง Molecule , สภาพขั้ว , มวลอะตอม , มวลเฉลี่ย , Mole",},
     ],
   },
   {
@@ -86,9 +88,9 @@ export function NotesList() {
     ),
   }));
 
-  const announcements = notes.flatMap((section) =>
-    section.items.filter((item) => item.release)
-  );
+  // const announcements = notes.flatMap((section) =>
+  //   section.items.filter((item) => item.release)
+  // );
 
   return (
     <Card className="w-full md:w-1/3">
@@ -106,7 +108,7 @@ export function NotesList() {
           />
         </div>
 
-        {announcements.length > 0 && (
+        {/* {announcements.length > 0 && (
           <div className="mb-4">
             <ul className="space-y-2">
               {announcements.map((item, index) => (
@@ -126,7 +128,7 @@ export function NotesList() {
               ))}
             </ul>
           </div>
-        )}
+        )} */}
 
         {favoriteNotes.length > 0 && (
           <div className="mb-4">
