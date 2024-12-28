@@ -5,7 +5,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { NotesList } from "@/components/notes-list";
 import { PDFViewer } from "@/components/pdf-viewer";
 import { FaGithub } from "react-icons/fa";
-import AdBanner from "@/components/ad-banner";
+// import AdBanner from "@/components/ad-banner";
 import AdBottom from "@/components/ad-bottom";
 
 type Contributor = {
@@ -88,9 +88,9 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="flex justify-center w-full">
+      {/* <div className="flex justify-center w-full">
         <AdBanner />
-      </div>
+      </div> */}
 
       <div className="flex flex-col md:flex-row gap-8">
         <Suspense fallback={<div>Loading Notes...</div>}>
