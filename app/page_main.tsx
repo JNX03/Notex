@@ -6,7 +6,7 @@ import { NotesList } from "@/components/notes-list";
 import { PDFViewer } from "@/components/pdf-viewer";
 import { FaGithub } from "react-icons/fa";
 // import AdBanner from "@/components/ad-banner";
-import AdBottom from "@/components/ad-bottom";
+// import AdBottom from "@/components/ad-bottom";
 
 type Contributor = {
   id: number;
