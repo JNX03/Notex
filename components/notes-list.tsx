@@ -9,7 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-// import { Countdown } from "./Countdown";
+import { Countdown } from "./Countdown";
 
 // { title: "Chemical ม.4 กลางภาคเทอม 2", href: "file/Chemical3.pdf", keywords: ["เคมี ม.4", "บทที่ 3"], description: "TBA", status: "TBA", release: "2024-12-28T23:59:59" },
 
@@ -35,12 +35,14 @@ const notes = [
     title: "Physics ม.4",
     items: [
       { title: "PhysicsM4 ม.4 ปลายภาคเทอม 1 (Force , Friction )", href: "file/PhysicsM4-1.pdf", keywords: ["ฟิสิก", "ม.4","แรงเสียดทาน","แรงดึงดูดระหว่างมวล","สมดุล","การหมุน","Friction"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
+      { title: "PhysicsM4 ม.4 กลางภาคเทอม 2", href: "", keywords: [], description: "TBA", status: "TBA", release: "2025-01-04T12:00:00" },
     ],
   },
   {
     title: "อื่นๆ ม.4",
     items: [
       { title: "ENG A M4 (subject-verb agreement)", href: "file/English.pdf", keywords: ["อังกฤษ", "ม.4","subject","verb"], description: "สรุป/Noteภาษาอังกฤษสำหรับ ม.4" },
+      { title: "English M4 กลางภาคเทอม 1", href: "", keywords: [], description: "TBA", status: "TBA", release: "2025-01-03T23:59:59" },
       { title: "สุขศึกษา M4 (ระบบกระดูก - ระบบย่อยอาหาร)", href: "file/M4health_education.pdf", keywords: ["สุขศึกษา", "ม.4","กระดูก","ย่อยอาหาร","bone"], description: "สรุป/Noteสุขศึกษาสำหรับ ม.4" },
     ],
   },
@@ -88,9 +90,9 @@ export function NotesList() {
     ),
   }));
 
-  // const announcements = notes.flatMap((section) =>
-  //   section.items.filter((item) => item.release)
-  // );
+  const announcements = notes.flatMap((section) =>
+    section.items.filter((item) => item.release)
+  );
 
   return (
     <Card className="w-full md:w-1/3">
@@ -108,7 +110,7 @@ export function NotesList() {
           />
         </div>
 
-        {/* {announcements.length > 0 && (
+        {announcements.length > 0 && (
           <div className="mb-4">
             <ul className="space-y-2">
               {announcements.map((item, index) => (
@@ -128,7 +130,7 @@ export function NotesList() {
               ))}
             </ul>
           </div>
-        )} */}
+        )}
 
         {favoriteNotes.length > 0 && (
           <div className="mb-4">

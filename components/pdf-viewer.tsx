@@ -28,7 +28,7 @@ export function PDFViewer() {
   const [pdfNotFound, setPdfNotFound] = useState(false);
   const searchParams = useSearchParams();
 
-  const placeholderImages = ["/images/6.png", "/images/7.png"];
+  const placeholderImages = ["/images/6.png", "/images/7.png", "/images/8.png"];
 
   const getScale = useCallback(() => {
     const width = window.innerWidth;
