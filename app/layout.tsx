@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: "NoteX - Jnx03",
     images: [
       {
-        url: "https://notex.jnx03.xyz/images/7.png",
+        url: "https://notex.jnx03.xyz/images/8.png",
         width: 1200,
         height: 630,
         alt: "NoteX Study Notes",
