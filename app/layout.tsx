@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: "NoteX - Jnx03",
     description: "Uncover detailed study notes crafted by Jxxn03z with NoteX. Boost your learning experience!",
     images: [
-      "https://notex.jnx03.xyz/images/7.png"
+      "https://notex.jnx03.xyz/images/8.png"
     ],
   },
   viewport: "width=device-width, initial-scale=1.0",
