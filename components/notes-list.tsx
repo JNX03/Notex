@@ -42,7 +42,7 @@ const notes = [
     title: "อื่นๆ ม.4",
     items: [
       { title: "ENG A M4 (subject-verb agreement)", href: "file/English.pdf", keywords: ["อังกฤษ", "ม.4","subject","verb"], description: "สรุป/Noteภาษาอังกฤษสำหรับ ม.4" },
-      { title: "English M4 กลางภาคเทอม 1", href: "", keywords: [], description: "TBA", status: "TBA", release: "2025-01-03T23:59:59" },
+      { title: "English M4 กลางภาคเทอม 1 (Comparison , Question Tag, Basic Mechanic Writing ,Author purpose, Vocab)", href: "file/ENG-AC.pdf", keywords: ["Vocab","Author", "purpose","Question", "Tag","Comparison"], description: "สรุป English เนื้อหา Comparison , Question Tag, Basic Mechanic Writing ,Author purpose, Vocab"},
       { title: "สุขศึกษา M4 (ระบบกระดูก - ระบบย่อยอาหาร)", href: "file/M4health_education.pdf", keywords: ["สุขศึกษา", "ม.4","กระดูก","ย่อยอาหาร","bone"], description: "สรุป/Noteสุขศึกษาสำหรับ ม.4" },
     ],
   },
