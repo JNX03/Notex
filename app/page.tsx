@@ -11,7 +11,7 @@ import { Mail, ExternalLink } from 'lucide-react'
 
 export default function Home() {
   const downTime = '2025-01-07T00:00:00Z'
-  const expectedCompletion = 'TBA'//'2025-01-20T00:00:00Z'
+  // const expectedCompletion = 'TBA'//'2025-01-20T00:00:00Z'
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
