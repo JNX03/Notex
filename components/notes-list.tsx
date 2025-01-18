@@ -35,7 +35,7 @@ const notes = [
     title: "Physics ม.4",
     items: [
       { title: "PhysicsM4 ม.4 ปลายภาคเทอม 1 (Force , Friction )", href: "file/PhysicsM4-1.pdf", keywords: ["ฟิสิก", "ม.4","แรงเสียดทาน","แรงดึงดูดระหว่างมวล","สมดุล","การหมุน","Friction"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
-      { title: "PhysicsM4 ม.4 กลางภาคเทอม 2", href: "", keywords: [], description: "TBA", status: "TBA", release: "2025-01-04T12:00:00" },
+      // { title: "PhysicsM4 ม.4 กลางภาคเทอม 2", href: "", keywords: [], description: "TBA", status: "TBA", release: "2025-01-04T12:00:00" },
     ],
   },
   {
@@ -90,9 +90,9 @@ export function NotesList() {
     ),
   }));
 
-  const announcements = notes.flatMap((section) =>
-    section.items.filter((item) => item.release)
-  );
+  // const announcements = notes.flatMap((section) =>
+  //   section.items.filter((item) => item.release)
+  // );
 
   return (
     <Card className="w-full md:w-1/3">
@@ -110,7 +110,7 @@ export function NotesList() {
           />
         </div>
 
-        {announcements.length > 0 && (
+        {/* {announcements.length > 0 && (
           <div className="mb-4">
             <ul className="space-y-2">
               {announcements.map((item, index) => (
@@ -130,7 +130,7 @@ export function NotesList() {
               ))}
             </ul>
           </div>
-        )}
+        )} */}
 
         {favoriteNotes.length > 0 && (
           <div className="mb-4">
