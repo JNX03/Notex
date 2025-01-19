@@ -1,38 +1,27 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+// import {
+//   Accordion,
+//   AccordionContent,
+//   AccordionItem,
+//   AccordionTrigger,
+// } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { QuestionsDialog } from "./questions-dialog";
 import { Search } from "@/components/ui/search";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Book, Star, Clock, BookOpen, X } from "lucide-react";
-import { getFavorites, toggleFavorite, getStreak, updateStreak, getLastViewed, updateLastViewed } from "@/lib/favorites";
+import { Star, Clock, BookOpen, X } from "lucide-react";
+import { getFavorites, toggleFavorite, getLastViewed, updateLastViewed, updateStreak } from "@/lib/favorites";
 import { cn } from "@/lib/utils";
 import { PDFViewer } from "@/components/pdf-viewer";
-import { getStats, updateStats, initializeStats } from "@/lib/stats";
+import { updateStats, initializeStats } from "@/lib/stats";
 // import { Countdown } from "./Countdown";
 
 // { title: "Chemical ม.4 กลางภาคเทอม 2", href: "file/Chemical3.pdf", keywords: ["เคมี ม.4", "บทที่ 3"], description: "TBA", status: "TBA", release: "2024-12-28T23:59:59" },
 
-interface Note {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  href: string;
-  isFavorite?: boolean;
-  lastViewed?: string;
-}
-
-const notes = [
+export const notes = [
   {
     id: "1",
     title: "วิทยาศาสตร์ ม.3",
@@ -116,20 +105,10 @@ interface NotesListProps {
   filterRecent?: boolean;
 }
 
-interface PDFViewerProps {
-  pdfUrl: string;
-}
-
-function PDFViewer({ pdfUrl }: PDFViewerProps) {
-  // ... existing PDFViewer code
-}
-
 export function NotesList({ filterFavorites, filterRecent }: NotesListProps = {}) {
-  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [streak, setStreak] = useState(0);
   const [lastViewed, setLastViewed] = useState<Record<string, string>>({});
   const [favoriteNotes, setFavoriteNotes] = useState<{ href: string; title: string; keywords: string[]; description: string }[]>([]);
   const [questionsData, setQuestionsData] = useState<QuestionData[]>([]);
@@ -137,14 +116,11 @@ export function NotesList({ filterFavorites, filterRecent }: NotesListProps = {}
   const [isQuestionsOpen, setIsQuestionsOpen] = useState(false);
   const [selectedNoteTitle, setSelectedNoteTitle] = useState("");
   const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
-  const [stats, setStats] = useState(getStats());
   const startTime = useRef<number | null>(null);
 
   useEffect(() => {
     // Load favorites
     getFavorites().then(setFavorites);
-    // Load streak
-    setStreak(getStreak());
     // Load last viewed
     getLastViewed().then(setLastViewed);
   }, []);
@@ -179,33 +155,22 @@ export function NotesList({ filterFavorites, filterRecent }: NotesListProps = {}
   useEffect(() => {
     // Initialize stats with total number of notes
     initializeStats(notes.length);
-    setStats(getStats());
   }, []);
 
-  const handleClick = (href: string) => {
-    router.push(`/?summary=${encodeURIComponent(href)}`);
-  };
-
   const handleNoteClick = async (noteId: string, title: string, href: string) => {
-    // Start tracking study time before opening PDF
     const startTime = Date.now();
-    
-    // Open PDF
     window.open(href, '_blank');
     
-    // Update streak
-    const newStreak = updateStreak();
-    setStreak(newStreak);
+    // Update streak but don't store in state since we don't display it
+    updateStreak();
     
-    // Update last viewed
     await updateLastViewed(noteId);
     const updated = await getLastViewed();
     setLastViewed(updated);
 
-    // Update study time after a minimum viewing duration (e.g., 30 seconds)
     setTimeout(() => {
-      const duration = (Date.now() - startTime) / 1000; // Convert to seconds
-      if (duration >= 30) { // Only count if viewed for at least 30 seconds
+      const duration = (Date.now() - startTime) / 1000;
+      if (duration >= 30) {
         updateStats(title, duration);
       }
     }, 30000);
@@ -231,8 +196,7 @@ export function NotesList({ filterFavorites, filterRecent }: NotesListProps = {}
   const handlePdfClose = (title: string) => {
     if (startTime.current) {
       const duration = (Date.now() - startTime.current) / 1000; // Convert to seconds
-      const updatedStats = updateStats(title, duration);
-      setStats(updatedStats);
+      updateStats(title, duration);
       startTime.current = null;
     }
     setSelectedPdf(null);
@@ -312,15 +276,25 @@ export function NotesList({ filterFavorites, filterRecent }: NotesListProps = {}
                     <Clock className="mr-1 h-4 w-4" />
                     <span className="line-clamp-1">{lastViewed[note.id] || "Not viewed yet"}</span>
                   </div>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="text-xs sm:text-sm"
-                    onClick={() => handleNoteClick(note.id, note.title, note.href)}
-                  >
-                    <BookOpen className="mr-2 h-4 w-4" />
-                    Open
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="text-xs sm:text-sm"
+                      onClick={() => handleQuizClick(note.title)}
+                    >
+                      Quiz
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="text-xs sm:text-sm"
+                      onClick={() => handleNoteClick(note.id, note.title, note.href)}
+                    >
+                      <BookOpen className="mr-2 h-4 w-4" />
+                      Open
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
