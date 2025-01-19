@@ -1,3 +1,5 @@
+import { notes } from "@/components/notes-list";
+
 export async function getNotes() {
   // In a real app, this would fetch from an API
   return notes;
@@ -5,7 +7,7 @@ export async function getNotes() {
 
 export async function getFavorites() {
   if (typeof window === 'undefined') return [];
-  const stored = localStorage.getItem('favoriteNotes');
+  const stored = localStorage.getItem('favorites');
   return stored ? JSON.parse(stored) : [];
 }
 
@@ -14,7 +16,7 @@ export async function toggleFavorite(noteId: string) {
   const exists = favorites.includes(noteId);
   
   const newFavorites = exists 
-    ? favorites.filter(id => id !== noteId)
+    ? favorites.filter((id: string) => id !== noteId)
     : [...favorites, noteId];
     
   localStorage.setItem('favoriteNotes', JSON.stringify(newFavorites));
