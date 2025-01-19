@@ -9,6 +9,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { QuestionsDialog } from "./questions-dialog";
 // import { Countdown } from "./Countdown";
 
 // { title: "Chemical ม.4 กลางภาคเทอม 2", href: "file/Chemical3.pdf", keywords: ["เคมี ม.4", "บทที่ 3"], description: "TBA", status: "TBA", release: "2024-12-28T23:59:59" },
@@ -34,8 +36,8 @@ const notes = [
   {
     title: "Physics ม.4",
     items: [
-      { title: "PhysicsM4 ม.4 ปลายภาคเทอม 1 (Force , Friction )", href: "file/PhysicsM4-1.pdf", keywords: ["ฟิสิก", "ม.4","แรงเสียดทาน","แรงดึงดูดระหว่างมวล","สมดุล","การหมุน","Friction"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
-      // { title: "PhysicsM4 ม.4 กลางภาคเทอม 2", href: "", keywords: [], description: "TBA", status: "TBA", release: "2025-01-04T12:00:00" },
+      { title: "PhysicsM4 ม.4 ม.4 ปลายภาคเทอม 1 (Force , Friction )", href: "file/PhysicsM4-1.pdf", keywords: ["ฟิสิก", "ม.4","แรงเสียดทาน","แรงดึงดูดระหว่างมวล","สมดุล","การหมุน","Friction"], description: "สรุป/Noteเคมีสำหรับ ม.4 บทที่ 1" },
+      // { title: "PhysicsM4 ม.4 ม.4 กลางภาคเทอม 2", href: "", keywords: [], description: "TBA", status: "TBA", release: "2025-01-04T12:00:00" },
     ],
   },
   {
@@ -48,10 +50,24 @@ const notes = [
   },
 ];
 
+interface QuestionData {
+  noteTitle: string;
+  questions: {
+    question: string;
+    options: string[];
+    answer: string;
+    type: 'multiple-choice' | 'true-false';
+  }[];
+}
+
 export function NotesList() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [favoriteNotes, setFavoriteNotes] = useState<{ href: string; title: string; keywords: string[]; description: string }[]>([]);
+  const [questionsData, setQuestionsData] = useState<QuestionData[]>([]);
+  const [selectedQuestions, setSelectedQuestions] = useState<QuestionData["questions"]>([]);
+  const [isQuestionsOpen, setIsQuestionsOpen] = useState(false);
+  const [selectedNoteTitle, setSelectedNoteTitle] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -66,6 +82,20 @@ export function NotesList() {
     }
   }, [favoriteNotes]);
 
+  useEffect(() => {
+    const loadQuestions = async () => {
+      try {
+        const response = await fetch('/questions.json');
+        const data = await response.json();
+        console.log('Loaded questions:', data);
+        setQuestionsData(data.questions);
+      } catch (error) {
+        console.error('Error loading questions:', error);
+      }
+    };
+    loadQuestions();
+  }, []);
+
   const handleClick = (href: string) => {
     router.push(`/?summary=${encodeURIComponent(href)}`);
   };
@@ -78,6 +108,18 @@ export function NotesList() {
         return [...prevFavorites, item];
       }
     });
+  };
+
+  const handleQuizClick = (noteTitle: string) => {
+    console.log('Quiz clicked for:', noteTitle);
+    console.log('Available questions:', questionsData);
+    const questionSet = questionsData.find(q => q.noteTitle === noteTitle);
+    console.log('Found question set:', questionSet);
+    if (questionSet?.questions) {
+      setSelectedQuestions(questionSet.questions);
+      setSelectedNoteTitle(noteTitle);
+      setIsQuestionsOpen(true);
+    }
   };
 
   const filteredNotes = notes.map((section) => ({
@@ -169,16 +211,31 @@ export function NotesList() {
                             </button>
                             <p className="text-sm text-gray-600">{item.description}</p>
                           </div>
-                          <button
-                            onClick={() => toggleFavorite(item)}
-                            className={`ml-2 p-1 rounded ${
-                              favoriteNotes.some((fav) => fav.href === item.href)
-                                ? "text-yellow-500"
-                                : "text-gray-400"
-                            } hover:text-yellow-500`}
-                          >
-                            ★
-                          </button>
+                          <div className="flex items-center gap-2">
+                            {questionsData.some(q => q.noteTitle === item.title) && (
+                              <Button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  handleQuizClick(item.title);
+                                }}
+                                size="sm"
+                                variant="outline"
+                              >
+                                Quiz
+                              </Button>
+                            )}
+                            <button
+                              onClick={() => toggleFavorite(item)}
+                              className={`ml-2 p-1 rounded ${
+                                favoriteNotes.some((fav) => fav.href === item.href)
+                                  ? "text-yellow-500"
+                                  : "text-gray-400"
+                              } hover:text-yellow-500`}
+                            >
+                              ★
+                            </button>
+                          </div>
                         </div>
                       </li>
                     ))}
@@ -188,6 +245,13 @@ export function NotesList() {
             )
           ))}
         </Accordion>
+
+        <QuestionsDialog
+          isOpen={isQuestionsOpen}
+          onClose={() => setIsQuestionsOpen(false)}
+          questions={selectedQuestions}
+          noteTitle={selectedNoteTitle}
+        />
       </CardContent>
     </Card>
   );

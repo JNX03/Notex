@@ -29,7 +29,9 @@
     "react-slick": "^0.30.3",
     "slick-carousel": "^1.8.1",
     "tailwind-merge": "^2.6.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "@radix-ui/react-label": "^2.0.0",
+    "@radix-ui/react-radio-group": "^1.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

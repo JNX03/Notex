@@ -1,0 +1,38 @@
+{
+  "questions": [
+    {
+      "noteTitle": "ENG A M4 (subject-verb agreement)",
+      "questions": [
+        {
+          "question": "In the sentence 'The team ___ playing well', what is the correct verb?",
+          "options": ["is", "are", "was", "were"],
+          "answer": "is",
+          "type": "multiple-choice"
+        },
+        {
+          "question": "Subject and verb must agree in number (singular/plural).",
+          "options": ["True", "False"],
+          "answer": "True",
+          "type": "true-false"
+        }
+      ]
+    },
+    {
+      "noteTitle": "สุขศึกษา M4 (ระบบกระดูก - ระบบย่อยอาหาร)",
+      "questions": [
+        {
+          "question": "กระดูกเป็นอวัยวะที่แข็งแรงที่สุดในร่างกาย",
+          "options": ["True", "False"],
+          "answer": "False",
+          "type": "true-false"
+        },
+        {
+          "question": "ระบบย่อยอาหารเริ่มต้นที่อวัยวะใด",
+          "options": ["ปาก", "กระเพาะอาหาร", "ลำไส้เล็ก", "ลำไส้ใหญ่"],
+          "answer": "ปาก",
+          "type": "multiple-choice"
+        }
+      ]
+    }
+  ]
+} 
