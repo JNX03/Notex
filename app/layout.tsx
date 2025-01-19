@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from 'next/font/google';
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AppSidebar } from "@/components/app-sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,9 +42,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: Readonly<{
+  children: React.ReactNode
+}>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -54,11 +55,16 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="min-h-screen bg-background">
+            <AppSidebar />
+            <main className="pl-56 min-h-screen">
+              {children}
+            </main>
+          </div>
         </ThemeProvider>
       </body>
     </html>
