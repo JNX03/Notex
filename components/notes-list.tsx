@@ -116,14 +116,6 @@ interface NotesListProps {
   filterRecent?: boolean;
 }
 
-interface PDFViewerProps {
-  pdfUrl: string;
-}
-
-function PDFViewer({ pdfUrl }: PDFViewerProps) {
-  // ... existing PDFViewer code
-}
-
 export function NotesList({ filterFavorites, filterRecent }: NotesListProps = {}) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
