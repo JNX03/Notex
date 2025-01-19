@@ -9,7 +9,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Clock, Star, TrendingUp, Activity } from "lucide-react";
 import { getStats } from "@/lib/stats";
 import { AnnouncementBanner } from "@/components/announcement-banner";
-import { format } from "date-fns";
 
 export default function Home() {
   const [stats, setStats] = useState(getStats());
