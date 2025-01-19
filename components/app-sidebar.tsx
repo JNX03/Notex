@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-// import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { ModeToggle } from "./mode-toggle"
-import { Home, Book, BookOpen, Calendar, Settings, HelpCircle } from "lucide-react"
+import { Mail, Home, Book, BookOpen, Calendar, Settings, HelpCircle } from "lucide-react"
 import { SettingsDialog } from "./settings-dialog"
 import { HelpDialog } from "./help-dialog"
 

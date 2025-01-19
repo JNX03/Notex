@@ -4,14 +4,16 @@ import React, { Suspense, useEffect, useState } from "react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { NotesList } from "@/components/notes-list";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Clock, TrendingUp, Activity } from "lucide-react";
+import { BookOpen, Clock, Star, TrendingUp, Activity } from "lucide-react";
 import { getStats } from "@/lib/stats";
-// import { AnnouncementBanner } from "@/components/announcement-banner";
+import { AnnouncementBanner } from "@/components/announcement-banner";
+import { format } from "date-fns";
 
 export default function Home() {
   const [stats, setStats] = useState(getStats());
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   // Update stats when they change
   useEffect(() => {
@@ -27,6 +29,15 @@ export default function Home() {
       clearInterval(interval);
       window.removeEventListener('storage', updateStats);
     };
+  }, []);
+
+  // Update clock
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
   }, []);
 
   return (
