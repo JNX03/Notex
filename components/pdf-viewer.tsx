@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { useSearchParams } from "next/navigation";
-import { Expand, Download, Share } from 'lucide-react';
-import { FullScreenPDFViewer } from "./full-screen-pdf-viewer";
-import { ShareDialog } from "./share-dialog";
+import { useEffect, useRef } from "react";
+// import { Card, CardContent } from "@/components/ui/card";
+// import { Button } from "@/components/ui/button";
+// import { useSearchParams } from "next/navigation";
+// import { Expand, Download, Share } from 'lucide-react';
+// import { FullScreenPDFViewer } from "./full-screen-pdf-viewer";
+// import { ShareDialog } from "./share-dialog";
 import * as pdfjsLib from "pdfjs-dist";
 import "pdfjs-dist/web/pdf_viewer.css";
-import { Skeleton } from "@/components/ui/skeleton";
-import Image from "next/image";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import Image from "next/image";
+// import { Alert, AlertDescription } from "@/components/ui/alert";
 import type { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`
@@ -26,6 +26,9 @@ export function PDFViewer({ pdfUrl }: PDFViewerProps) {
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
+
+    // Clear previous content
+    container.innerHTML = ''
 
     const loadingTask = pdfjsLib.getDocument(pdfUrl)
     loadingTask.promise.then((pdf: PDFDocumentProxy) => {
