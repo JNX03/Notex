@@ -61,7 +61,11 @@ export default function RootLayout({
         >
           <div className="min-h-screen bg-background">
             <AppSidebar />
-            <main className="pl-56 min-h-screen">
+            <main className="lg:pl-56 min-h-screen transition-all duration-300">
+              <div className="lg:hidden h-14 bg-gradient-to-r from-blue-600 to-purple-600 flex items-center px-4">
+                <span className="font-bold text-white text-lg">NoteX</span>
+                <span className="ml-auto text-xs text-blue-100">v2.0</span>
+              </div>
               {children}
             </main>
           </div>

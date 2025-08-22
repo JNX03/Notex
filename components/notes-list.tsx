@@ -103,9 +103,10 @@ interface QuestionData {
 interface NotesListProps {
   filterFavorites?: boolean;
   filterRecent?: boolean;
+  limit?: number;
 }
 
-export function NotesList({ filterFavorites, filterRecent }: NotesListProps = {}) {
+export function NotesList({ filterFavorites, filterRecent, limit }: NotesListProps = {}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -220,7 +221,7 @@ export function NotesList({ filterFavorites, filterRecent }: NotesListProps = {}
     );
 
     return matchesSearch && matchesCategory && matchesFavorites && matchesRecent;
-  });
+  }).slice(0, limit);
 
   const categories = Array.from(new Set(notes.map(note => note.category)));
 
